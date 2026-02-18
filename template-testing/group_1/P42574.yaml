@@ -1,0 +1,7 @@
+sequences:
+  - protein:
+      id: A
+      sequence: "DMACHKIPVDADFLYAYSTAPGYYSWRNSKDGSWFIQSLCAMLKQYADKLEFMHILTRVNRKVATEFESFSFDATFHAKKQIPCIVSMLTKELYFYH"
+  - ligand:
+      id: B
+      smiles: "CC(C)(C)OC(=O)NC(Cc1ccccc1)CSCC(C(=O)NCc2cccnc2)Nc3ccccc3"

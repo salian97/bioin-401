@@ -1,0 +1,20 @@
+sequences:
+  - protein:
+      id: A
+      sequence: MNLVLMGLPGAGKGTQGERIVEDYGIPHISTGDMFRAAMKEETPLGLEAKSYIDKGELVPDEVTIGIVKERLGKDDCERGFLLDGFPRTVAQAEALEEILEEYGKPIDYVINIEVDKDVLMERLTGRRICSVCGTTYHLVFNPPKTPGICDKDGGELYQRADDNEETVSKRLEVNMKQTQPLLDFYSEKGYLANVNGQQDIQDVYADVKDLLGGLKK
+  - ligand:
+      id: B
+      ccd: AP5
+  - ligand:
+      id: C
+      ccd: ZN
+  - ligand:
+      id: D
+      ccd: MG
+templates:
+  - pdb: '/project/6002707/Serag/envs/boltz/bioin401/boltz-test/templates/P16304.pdb'
+    force: true
+    threshold: 2
+properties:
+  - affinity:
+      binder: B

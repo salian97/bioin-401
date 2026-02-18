@@ -1,0 +1,13 @@
+sequences:
+  - protein:
+      id: A
+      sequence: "KLCSLDNGDCDQFCHEEQNSVVCSCARGYTLADNGKACIPTGPYPCGKQTL"
+  - ligand:
+      id: B
+      smiles: "c1cc(ccc1N2CCOCC2=O)N3CC(OC3=O)CNC(=O)c4ccc(s4)Cl"
+templates:
+  - protein:
+      id: A
+      path: "../templates/1P0S.pdb"
+      force: true
+      threshold: 1.0

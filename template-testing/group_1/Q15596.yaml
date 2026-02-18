@@ -1,0 +1,7 @@
+sequences:
+  - protein:
+      id: A
+      sequence: "PVSPKKKENALLRYLLDKDDT"
+  - ligand:
+      id: B
+      smiles: "[NH3][Co+3]([NH3])([NH3])([NH3])([NH3])[NH3]"

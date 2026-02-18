@@ -1,0 +1,17 @@
+sequences:
+  - protein:
+      id: A
+      sequence: MADQLTEEQIAEFKEAFSLFDKDGDGTITTKELGTVMRSLGQNPTEAELQDMINEVDADGNGTIDFPEFLTMMARKMKDTDSEEEIREAFRVFDKDGNGYISAAELRHVMTNLGEKLTDEEVDEMIREADIDGDGQVNYEEFVQMMTAK
+  - ligand:
+      id: B
+      smiles: "CN1CCN(CC1)CCCN2c3ccccc3Sc4c2cc(cc4)C(F)(F)F"
+  - ligand:
+      id: C
+      ccd: CA
+templates:
+  - pdb: '/project/6002707/Serag/envs/boltz/bioin401/boltz-test/templates/P0DP23.pdb'
+    force: true
+    threshold: 2
+properties:
+  - affinity:
+      binder: B

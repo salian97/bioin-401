@@ -1,0 +1,13 @@
+sequences:
+  - protein:
+      id: A
+      sequence: "PVSPKKKENALLRYLLDKDDT"
+  - ligand:
+      id: B
+      smiles: "[NH3][Co+3]([NH3])([NH3])([NH3])([NH3])[NH3]"
+templates:
+  - protein:
+      id: A
+      path: "../templates/1GWQ.pdb"
+      force: true
+      threshold: 1.0

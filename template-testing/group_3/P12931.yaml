@@ -1,0 +1,13 @@
+sequences:
+  - protein:
+      id: A
+      sequence: "MDSIQAEEWYFGKITRRESERLLLNAENPRGTFLVRESETTKGAYCLSVSDFDNAKGLNVKHYKIRKLDSGGFYITSRTQFNSLQQLVAYYSKHADGLCHRLTTVCP"
+  - protein:
+      id: B
+      sequence: "(ACE)(PTR)E(DIP)"
+templates:
+  - protein:
+      id: A
+      path: "../templates/1QCF.pdb"
+      force: true
+      threshold: 1.0

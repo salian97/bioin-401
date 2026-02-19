@@ -11,7 +11,6 @@ import pandas as pd
 
 UNIPROT_API = 'https://rest.uniprot.org/uniprotkb/'
 
-
 # helper function - wraps around the requests library and adds error handling
 def getUrl(url, **kwargs):
     response = requests.get(url, **kwargs) # send a GET request to the given URL

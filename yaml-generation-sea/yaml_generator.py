@@ -1,24 +1,23 @@
 import pandas as pd
 import os
-from itertools import product
 import yaml
 
-PROTEIN_SEQUENCE_FILEPATH = r'output_enzyme_gpcr_targets_with_sequences.csv'
-LIGAND_FILEPATH = r'cluster_representatives_v1.csv'
-OUTPUT_DIR = r'output'
+OUTPUT_DIR = r'outputs'
+INPUT_FILEPATH = os.path.join(OUTPUT_DIR, 'processed_sea_results_with_uniprot_data.csv')
+OUTPUT_FILEPATH = os.path.join(OUTPUT_DIR, 'yamls')
 
-def filterDf(df: pd.DataFrame, columns: list[str]):
-    '''
-    Removes rows of a specified df containing empty strings or NaN values in the specified columns and returns the df with index reset.
-    '''
+# def filterDf(df: pd.DataFrame, columns: list[str]):
+#     '''
+#     Removes rows of a specified df containing empty strings or NaN values in the specified columns and returns the df with index reset.
+#     '''
     
-    df = df.dropna(subset=columns)
-    for column in columns:
-        df = df[df[column].str.strip().astype(bool)]
+#     df = df.dropna(subset=columns)
+#     for column in columns:
+#         df = df[df[column].str.strip().astype(bool)]
         
-    return df.reset_index(drop=True)
+#     return df.reset_index(drop=True)
 
-def generateBoltzYamls(proteinDf: pd.DataFrame, ligandDf: pd.DataFrame, outputDir, cap=float('inf'), chunk_size=float('inf')):
+def generateBoltzYamls(proteinLigandPairs: pd.DataFrame, outputDir, cap=float('inf'), chunk_size=float('inf')):
     """
     Generates Boltz YAML files with sub-directory chunking and proper relative paths.
     """
@@ -31,15 +30,15 @@ def generateBoltzYamls(proteinDf: pd.DataFrame, ligandDf: pd.DataFrame, outputDi
     # Determine if we should use subdirectories
     use_chunks = cap > chunk_size
 
-    for (_, p_row), (_, l_row) in product(proteinDf.iterrows(), ligandDf.iterrows()):
+    for _, row in proteinLigandPairs.iterrows():
         if count >= cap:
             break
             
-        uniprot_id = p_row['UniProt ID']
-        protein_seq = p_row['Sequence']
-        template_path = p_row['PDB_File_Path']
-        np_mrd_id = l_row['NP_MRD_ID']
-        smiles = l_row['SMILES']
+        uniprot_id = row['UniProt ID']
+        protein_seq = row['Sequence']
+        template_path = row['PDB_File_Path']
+        compoundId = row['Query ID']
+        smiles = row['Query Smiles']
         
         # 1. Determine current save directory and filename
         current_save_dir = outputDir
@@ -64,9 +63,9 @@ def generateBoltzYamls(proteinDf: pd.DataFrame, ligandDf: pd.DataFrame, outputDi
             rel_template_path = os.path.relpath(template_path, start=current_save_dir)
             yaml_data["templates"] = [{"pdb": rel_template_path}]
             
-            filename = f"{count}_{uniprot_id}_{np_mrd_id}_T.yaml"
+            filename = f"{count}_{uniprot_id}_{compoundId}_T.yaml"
         else:
-            filename = f"{count}_{uniprot_id}_{np_mrd_id}.yaml"
+            filename = f"{count}_{uniprot_id}_{compoundId}.yaml"
             
         # 4. Add properties
         yaml_data["properties"] = [{"affinity": {"binder": "B"}}]
@@ -83,23 +82,14 @@ def generateBoltzYamls(proteinDf: pd.DataFrame, ligandDf: pd.DataFrame, outputDi
     print(f"\nSuccess: {count} YAML files written to '{outputDir}'")
 
 def main():
-    # read the proteins (w/ sequences) and ligands into df's
+    # read processed protein-ligand pairs into a df
     print('Reading data...')
-    proteins = pd.read_csv(PROTEIN_SEQUENCE_FILEPATH)
-    ligands = pd.read_csv(LIGAND_FILEPATH).drop_duplicates()
+    proteinLigandPairs = pd.read_csv(INPUT_FILEPATH)
     
-    print(f'Read {len(proteins)} proteins and {len(ligands)} ligands.')
-    
-    # filter the data
-    # by default, removes any proteins with blank sequences or ligands with blank structures
-    # can also implement functionality to only keep specific protein or ligand ids
-    proteins = filterDf(proteins, ['UniProt ID', 'Sequence'])
-    ligands = filterDf(ligands, ['SMILES'])
-    
-    print(f'After filtering: {len(proteins)} proteins and {len(ligands)} ligands remain.')
+    print(f'Read {len(proteinLigandPairs)} protein-ligand pairs.')
     
     # generate boltz-ready yaml files using the compiled protein and ligand data
-    generateBoltzYamls(proteins, ligands, os.path.join(OUTPUT_DIR, 'yamls'), cap=100, chunk_size=1000)
+    generateBoltzYamls(proteinLigandPairs, os.path.join(OUTPUT_DIR, 'yamls'), cap=100, chunk_size=5)
 
 if __name__ == '__main__':
     main()

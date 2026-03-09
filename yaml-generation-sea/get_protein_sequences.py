@@ -96,20 +96,21 @@ def mapPDBtemplates(main_df: pd.DataFrame, excel_path, source_pdb_dir, outputDir
         if pd.isna(pdbFilePath):
             return None
         
-        # Files are named exactly after the 'ID' column + .pdb extension
-        src_file = os.path.join(source_pdb_dir, f"{pdbFilePath}.pdb")
-        uniProtID, pdbID = pdbFilePath.split('_')[1:3]
-        pdbID = pdbID.upper()
-        dst_file = os.path.join(outputDir, f"{uniProtID}_{pdbID}.pdb")
-        
-        if os.path.exists(dst_file):
-            return dst_file # Already copied, just return the path
-        
-        if os.path.exists(src_file):
-            shutil.copy(src_file, dst_file)
-            return dst_file # Return the local path for the YAML generator
-        
-        return None
+        for ext in ('.pdb', '.cif'):
+            # Files are named exactly after the 'ID' column + .pdb extension
+            src_file = os.path.join(source_pdb_dir, f"{pdbFilePath}{ext}")
+            uniProtID, pdbID = pdbFilePath.split('_')[1:3]
+            pdbID = pdbID.upper()
+            dst_file = os.path.join(outputDir, f"{uniProtID}_{pdbID}{ext}")
+            
+            if os.path.exists(dst_file):
+                return dst_file # Already copied, just return the path
+            
+            if os.path.exists(src_file):
+                shutil.copy(src_file, dst_file)
+                return dst_file # Return the local path for the YAML generator
+            
+            return None
 
     # Apply the copy function and store the local path in a new column
     main_df['PDB_File_Path'] = main_df['PDB_File_Path'].apply(copy_if_exists)

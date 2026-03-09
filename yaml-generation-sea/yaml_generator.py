@@ -60,8 +60,12 @@ def generateBoltzYamls(proteinLigandPairs: pd.DataFrame, outputDir, cap=float('i
         has_template = pd.notna(template_path) and os.path.exists(str(template_path))
         if has_template:
             # We calculate relative path from the CURRENT directory of the YAML
-            rel_template_path = os.path.relpath(template_path, start=current_save_dir)
-            yaml_data["templates"] = [{"pdb": rel_template_path}]
+            # yaml_template_path = os.path.relpath(template_path, start=current_save_dir) # relative path from the yaml file to the template
+            yaml_template_path = '/project/6002707/Serag/envs/boltz/bioin401/bioin401farm/prod1/templates/' + os.path.basename(template_path)
+            ext = os.path.splitext(template_path)[1].lower()
+            template_key = ext[1:]
+            
+            yaml_data["templates"] = [{template_key: yaml_template_path}]
             
             filename = f"{count}_{uniprot_id}_{compoundId}_T.yaml"
         else:
@@ -89,7 +93,7 @@ def main():
     print(f'Read {len(proteinLigandPairs)} protein-ligand pairs.')
     
     # generate boltz-ready yaml files using the compiled protein and ligand data
-    generateBoltzYamls(proteinLigandPairs, os.path.join(OUTPUT_DIR, 'yamls'), cap=100, chunk_size=5)
+    generateBoltzYamls(proteinLigandPairs, os.path.join(OUTPUT_DIR, 'yamls'), chunk_size=100)
 
 if __name__ == '__main__':
     main()

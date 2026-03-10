@@ -131,7 +131,10 @@ def main():
     filteredSEAresults = fetch_uniprot_data(filteredSEAresults)
     
     filteredSEAresults = mapPDBtemplates(filteredSEAresults, TEMPLATE_KEY_FILEPATH, TEMPLATES_DIR, os.path.join('outputs', 'templates'))
-    print(filteredSEAresults)
+    
+    # sort the data by protein
+    filteredSEAresults = filteredSEAresults.sort_values('UniProt ID')
+    
     filteredSEAresults.to_csv(PROTEIN_OUTPUT_FILEPATH)
     
     print(f'Saved proteins with sequences and templates to {PROTEIN_OUTPUT_FILEPATH}')

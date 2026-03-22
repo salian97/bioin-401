@@ -4,3 +4,6 @@ yaml-generation-sea/outputs/
 yaml-generation-sea/Experimental_Protein_Ligand
 yaml-generation-sea/sea_results
 yaml-generation-sea/*.zip
+yaml-generation-sea/.vscode/
+yaml-generation-sea/natural_products
+yaml-generation-sea/analysis

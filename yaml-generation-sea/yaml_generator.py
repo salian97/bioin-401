@@ -74,7 +74,7 @@ def generateBoltzYamls(proteinLigandPairs: pd.DataFrame, outputDir, chunk_size, 
                 # Handling templates
                 has_template = pd.notna(template_path) and os.path.exists(str(template_path))
                 if has_template:
-                    yaml_template_path = '/project/6002707/Serag/envs/boltz/bioin401/bioin401farm/prod1/templates/' + os.path.basename(template_path)
+                    yaml_template_path = '/project/6002707/Serag/envs/boltz/bioin401/bioin401farm/prod3/templates/' + os.path.basename(template_path)
                     ext = os.path.splitext(template_path)[1].lower()
                     template_key = ext[1:]
                     
